@@ -3369,7 +3369,10 @@ function buildRawSelect(p) {
     let sel = buildRawSelectSubject(p);
     // filter & select
     sel = sel !== null && sel !== void 0 ? sel : (0, context_1.buildCtx)().schema.dualTable.selection;
-    sel = sel.filter(p.where ?? p.having);
+    if (p.having) {
+      sel = sel.filter(p.having);
+    }
+    sel = sel.filter(p.where);
     // postgres helps users: you can use group-by & order-by on aliases.
     // ... but you cant use aliases in a computation (only in simple order by statements)
     // this hack reproduces this behaviour
