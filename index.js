@@ -6229,7 +6229,9 @@ const order_by_1 = __webpack_require__(109);
 const pg_catalog_1 = __webpack_require__(110);
 const information_schema_1 = __webpack_require__(126);
 const utils_1 = __webpack_require__(1);
-function newDb(opts) {
+
+
+function newDb(opts, additionalParams) {
     (0, transform_base_1.initialize)({
         buildSelection: selection_1.buildSelection,
         buildAlias: alias_1.buildAlias,
@@ -6246,11 +6248,13 @@ function newDb(opts) {
         .set('server_version', '12.2 (pg-mem)');
     root.set(interfaces_private_1.GLOBAL_VARS, globals);
     // create db
-    return new MemoryDb(root, undefined, opts !== null && opts !== void 0 ? opts : {});
+    return new MemoryDb(root, undefined, opts !== null && opts !== void 0 ? opts : {}, opts !== null && opts !== void 0 ? additionalParams : undefined);
 }
 exports.newDb = newDb;
 class MemoryDb {
-    constructor(data, schemas, options = {}) {
+    constructor(data, schemas, options = {}, additionalParams = {
+        searchPath: []
+    }) {
         this.data = data;
         this.options = options;
         this.handlers = new Map();
@@ -6259,7 +6263,7 @@ class MemoryDb {
         this.adapters = new adapters_1.Adapters(this);
         this.extensions = {};
         this.languages = {};
-        this.searchPath = ['pg_catalog', 'public'];
+        this.searchPath = ['pg_catalog', 'public', ...additionalParams.searchPath];
         if (!schemas) {
             this.createSchema('public');
         }
