@@ -6248,7 +6248,7 @@ function newDb(opts, additionalParams) {
         .set('server_version', '12.2 (pg-mem)');
     root.set(interfaces_private_1.GLOBAL_VARS, globals);
     // create db
-    return new MemoryDb(root, undefined, opts !== null && opts !== void 0 ? opts : {}, opts !== null && opts !== void 0 ? additionalParams : undefined);
+    return new MemoryDb(root, undefined, opts !== null && opts !== void 0 ? opts : {}, additionalParams !== null && additionalParams !== void 0 ? additionalParams : undefined);
 }
 exports.newDb = newDb;
 class MemoryDb {
